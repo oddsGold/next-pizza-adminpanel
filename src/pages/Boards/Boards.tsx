@@ -1,14 +1,17 @@
 import React, { useState } from 'react';
 import Loader from '../../common/Loader';
-import { useBoardsQuery, useBoardDetailsQuery, useUpdateListPositionMutation, useUpdateCardPositionMutation } from '../../redux/boards/boardsApiSlice.ts';
+import { useBoardDetailsQuery, useUpdateListPositionMutation, useUpdateCardPositionMutation } from '../../redux/boards/boardsApiSlice.ts';
 import { skipToken } from '@reduxjs/toolkit/query';
 import Board from '../../components/Boards/Board.tsx';
 import { DropResult } from 'react-beautiful-dnd';
+import { useSelector } from 'react-redux';
+import { selectBoards } from '../../redux/boards/selectors.ts';
 
 const Boards: React.FC = () => {
-  const { data: boardsData, error: boardsError, isLoading: boardsLoading } = useBoardsQuery();
+
+  const boardsData = useSelector(selectBoards);
+
   const [activeTab, setActiveTab] = useState<number | null>(0);
-  console.log(boardsData);
 
   const { data: activeBoardData, error: boardError, isLoading: boardLoading } = useBoardDetailsQuery(
     boardsData && boardsData[activeTab] ? boardsData[activeTab].id : skipToken
@@ -43,9 +46,6 @@ const Boards: React.FC = () => {
       }
     }
   };
-
-  if (boardsLoading) return <Loader />;
-  if (boardsError) return <div>Error fetching boards</div>;
 
   return (
     <div className="container mx-auto p-4">

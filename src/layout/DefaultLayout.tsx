@@ -1,10 +1,11 @@
-import React, { useState, ReactNode } from 'react';
+import React, { useState, ReactNode, useEffect } from 'react';
 import Header from '../components/Header/index';
 import Sidebar from '../components/Sidebar/index';
 import { useUserQuery } from '../redux/users/usersApiSlice.ts';
 import { useSelector } from 'react-redux';
 import { selectValidatedRefreshToken } from '../redux/auth/selectors.ts';
 import Loader from '../common/Loader';
+import { useBoardsQuery } from '../redux/boards/boardsApiSlice.ts';
 
 const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
   const [sidebarOpen, setSidebarOpen] = useState(false);
@@ -15,6 +16,7 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
     data: user,
     error: isUserError,
     isLoading: isUserLoading,
+    isSuccess: isUserSuccess
   } = useUserQuery(refreshToken);
 
   if (isUserError) {
@@ -24,6 +26,19 @@ const DefaultLayout: React.FC<{ children: ReactNode }> = ({ children }) => {
       </div>
     );
   }
+
+  const {
+    data: boardsData,
+    refetch: fetchBoards,
+  } = useBoardsQuery(undefined, {
+    skip: !isUserSuccess,
+  });
+
+  useEffect(() => {
+    if (isUserSuccess) {
+      fetchBoards();
+    }
+  }, [isUserSuccess, fetchBoards]);
 
   return isUserLoading ? (
     <Loader />

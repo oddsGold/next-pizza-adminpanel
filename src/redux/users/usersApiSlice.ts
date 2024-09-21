@@ -9,7 +9,7 @@ export const usersApiSlice = api.injectEndpoints({
         method: 'POST',
         body: { refresh_token: token },
       }),
-      providesTags: ['user']
+      providesTags: ['user'],
     }),
     updateUser: builder.mutation<UserResponse, UserRequest>({
       query: (userRequest: UserRequest) => ({
