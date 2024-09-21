@@ -73,7 +73,9 @@ const Boards: React.FC = () => {
           </ul>
 
           {/* Відображення списків та карток для активної дошки */}
-          {activeBoardData && (
+          {boardLoading ? (
+            <Loader />
+          ) : activeBoardData ? (
             <div className="p-4 bg-white shadow-md rounded-md">
               <h2 className="text-xl font-semibold mb-2">{activeBoardData.name}</h2>
               <p className="text-gray-700 mb-2">Owner: {activeBoardData.owner_id}</p>
@@ -90,9 +92,9 @@ const Boards: React.FC = () => {
                 )}
               </div>
             </div>
-          )}
-          {boardLoading && <Loader />}
-          {boardError && <p>Error fetching board data</p>}
+          ) : boardError ? (
+            <p>Error fetching board data</p>
+          ) : null}
         </div>
       )}
     </div>
