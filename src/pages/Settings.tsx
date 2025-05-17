@@ -1,8 +1,6 @@
 import Breadcrumb from '../components/Breadcrumbs/Breadcrumb';
 import userThree from '../images/user/user-03.png';
 import DefaultForm from '../components/Forms/SettingsForm.tsx';
-import { useSelector } from 'react-redux';
-import { selectValidatedRefreshToken } from '../redux/auth/selectors.ts';
 import {
   useUpdateUserMutation,
   useUserQuery,
@@ -14,22 +12,10 @@ import { UserRequest } from '../redux/users/userInfo.type.ts';
 
 const Settings = () => {
   const navigate = useNavigate();
-  const refreshToken = useSelector(selectValidatedRefreshToken);
 
-  const {
-    data: user,
-    error: isUserError,
-    isLoading: isUserLoading,
-  } = useUserQuery(refreshToken);
+  const { data: user, error: isUserError, isLoading: isUserLoading } = useUserQuery();
 
-  // const {
-  //   data: roles,
-  //   isLoading: isRolesLoading,
-  // } = useRolesQuery();
-
-
-  const [updateUser, { isLoading: isUpdateUserLoading }] =
-    useUpdateUserMutation();
+  const [updateUser, { isLoading: isUpdateUserLoading }] = useUpdateUserMutation();
 
   if (isUserError) {
     return (
@@ -85,8 +71,8 @@ const Settings = () => {
               <div className="p-7">
                 <form action="#">
                   <div className="mb-4 flex items-start gap-3">
-                    <div className="h-14 w-14 rounded-full">
-                      <img src={userThree} alt="User" />
+                    <div className="h-14 w-14 rounded-full overflow-hidden">
+                      <img src={user ? user.avatar : userThree} alt="User" />
                     </div>
                     <div>
                       <span className="align-middle mb-4.5 text-black dark:text-white">

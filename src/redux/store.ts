@@ -1,8 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
 import authReducer from '../redux/auth/slice.js';
 import userReducer from "../redux/users/slice.js";
+import menuReducer from "../redux/menus/slice.ts";
+import resourceReducer from "../redux/resources/slice.ts";
+import permissionReducer from "../redux/permissions/slice.ts";
+
 import roleReducer from "../redux/roles/slice.ts";
-import boardReducer from "../redux/boards/slice.js";
 
 import {
   persistStore,
@@ -34,8 +37,10 @@ export const store = configureStore({
     [api.reducerPath]: api.reducer,
     auth: persistedAuthReducer,
     user: userReducer,
+    menu: menuReducer,
+    resource: resourceReducer,
     role: roleReducer,
-    boards: boardReducer,
+    permission: permissionReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware({

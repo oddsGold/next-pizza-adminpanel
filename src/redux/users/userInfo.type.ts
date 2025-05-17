@@ -6,32 +6,30 @@ export interface Menu {
   resource_id: number | null;
 }
 
-interface Role {
-  id: number;
+export interface UserAdminResponse {
+  _id: string;
   name: string;
-  label: string;
-  menus: Menu[];
+  email: string;
+  avatar: string;
 }
 
-export interface UserResponse {
+export interface UserClientResponse {
   id: number;
-  username: string;
+  fullName: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  position: string;
-  avatar_url: string;
-  is_online: boolean;
-  role: Role;
+  role: 'USER' | 'ADMIN';
+  verified: string | null;
+  provider: string | null;
+  providerId: string | null;
+  createdAt: string;
+  updatedAt: string;
 }
 
 export interface UserRequest {
   id: number;
-  username: string;
+  name: string;
   email: string;
-  first_name: string;
-  last_name: string;
-  position: string;
+  avatar: string;
 }
 
 export interface customMenu extends Menu {

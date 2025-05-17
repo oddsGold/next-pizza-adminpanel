@@ -1,13 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { RefreshTokenResponse, Tokens, TokenState } from './user.type.ts';
-import { login, logout } from './authApiSlice.ts';
+import { registerResponse, Tokens, TokenState } from './user.type.ts';
+import { login, logout, register } from './authApiSlice.ts';
 
 const initialState: TokenState = {
-  tokens: {
-    access_token: null,
-    refresh_token: null,
-    token_type: null,
-  },
+  tokens: null,
 };
 
 const authSlice = createSlice({
@@ -18,19 +14,18 @@ const authSlice = createSlice({
       state.tokens = action.payload;
     },
     logOut: (state) => {
-      state.tokens = {
-        access_token: null,
-        refresh_token: null,
-        token_type: null,
-      };
+      state.tokens = null;
     },
   },
   extraReducers: (builder) => {
-    builder.addMatcher(login.matchFulfilled, (state, action: PayloadAction<RefreshTokenResponse>) => {
+    builder.addMatcher(login.matchFulfilled, (state, action: PayloadAction<Tokens>) => {
       state.tokens = action.payload;
     });
     builder.addMatcher(logout.matchFulfilled, (state) => {
       state.tokens = null;
+    });
+    builder.addMatcher(register.matchFulfilled, (state, action: PayloadAction<registerResponse>) => {
+      state.tokens = { accessToken: action.payload.accessToken };
     });
   }
 });
