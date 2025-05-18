@@ -7,6 +7,7 @@ import FormElements from '../pages/Form/FormElements.tsx';
 import Profile from '../pages/Profile.tsx';
 import Users from '../pages/Users/Users.tsx';
 import MenusPage from '../pages/Menus/MenusPage.tsx';
+import PermissionsPage from '../pages/Permissions/PermissionsPage.tsx';
 
 
 const PrivateRoutes: FC = () => {
@@ -19,6 +20,7 @@ const PrivateRoutes: FC = () => {
       <Route path="/profile" element={<Profile />} />
       <Route path="/users" element={<Users />} />
       <Route path="/admin/menu/create" element={<MenusPage />} />
+      <Route path="/admin/permission/create" element={<PermissionsPage />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

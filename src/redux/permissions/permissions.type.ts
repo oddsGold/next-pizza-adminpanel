@@ -13,3 +13,9 @@ export interface Permission {
   label: string;
   action: string;
 }
+
+export interface permissionRequest {
+  roleId: string;
+  resourceId: string;
+  permissionId: string;
+}

@@ -1,9 +1,9 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import SelectGroupOneMenu from '../../components/Menus/SelectGroupOneMenu.tsx';
+import SelectGroupOneMenu from '../../components/Forms/SelectGroupOneMenu.tsx';
 import { useResourcesQuery } from '../../redux/resources/resourcesApiSlice.ts';
 import { usePermissionsQuery } from '../../redux/permissions/permissionsApiSlice.ts';
-import InputField from '../../components/Menus/InputField.tsx';
+import InputField from '../../components/Forms/InputField.tsx';
 import { MenuItem, menuRequest } from '../../redux/menus/menus.type.ts';
 import { Permission } from '../../redux/permissions/permissions.type.ts';
 import errorHandler from '../../utils/errorHandler.ts';
@@ -40,7 +40,7 @@ const MenusPage = () => {
   const onSubmit: SubmitHandler<menuRequest> = async (data) => {
     try {
       await addMenuItem(data).unwrap();
-      // navigate('/');
+      // navigate('/'); //проверить права доступа и в завимости от этого сделать navigate
     } catch (err) {
       errorHandler();
     }
@@ -88,6 +88,8 @@ const MenusPage = () => {
                     span="(Розділення прав доступу)"
                     options={resources || []}
                     isLoading={isResourcesLoading}
+                    register={register}
+                    errors={errors}
                   />
                 </div>
 
@@ -98,6 +100,8 @@ const MenusPage = () => {
                     span="(Якщо не вибрано батьківський пункт меню, цей елемент буде вважатися батьківським)"
                     options={menuOptions}
                     isLoading={isMenusLoading}
+                    register={register}
+                    errors={errors}
                   />
                 </div>
 
@@ -107,6 +111,8 @@ const MenusPage = () => {
                     label="Оберіть дію, яку виконує цей пункт меню"
                     options={permissionOptions}
                     isLoading={isPermissionsLoading}
+                    register={register}
+                    errors={errors}
                   />
                 </div>
 

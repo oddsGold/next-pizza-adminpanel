@@ -1,13 +1,14 @@
 import { api } from '../operations.js';
-import { Role } from './role.type.ts';
+import { RoleResponse } from './role.type.ts';
 
 export const rolesApiSlice = api.injectEndpoints({
   endpoints: (builder) => ({
-    roles: builder.query<Role, void>({
+    roles: builder.query<RoleResponse[], void>({
       query: () => ({
         url: '/roles'
       }),
-      providesTags: ['roles']
+      providesTags: ['roles'],
+      transformResponse: (response: { data: RoleResponse[] }) => response.data,
     }),
   }),
 });

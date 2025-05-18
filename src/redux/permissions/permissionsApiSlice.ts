@@ -1,5 +1,5 @@
 import { api } from '../operations.js';
-import { availablePermission, Permission } from './permissions.type.ts';
+import { availablePermission, Permission, permissionRequest } from './permissions.type.ts';
 
 export const menusApiSlice = api.injectEndpoints({
   endpoints: (builder) => ({
@@ -17,10 +17,19 @@ export const menusApiSlice = api.injectEndpoints({
       providesTags: ['all-permissions'],
       transformResponse: (response: { data: Permission[] }) => response.data,
     }),
+    addPermission: builder.mutation<Permission[], permissionRequest>({
+      query: (permissionRequest) => ({
+        url: '/permissions',
+        method: 'POST',
+        body: permissionRequest,
+      }),
+      transformResponse: (response: { data: Permission[] }) => response.data,
+    }),
   }),
 });
 
 export const {
   useAvailablePermissionsQuery,
-  usePermissionsQuery
+  usePermissionsQuery,
+  useAddPermissionMutation,
 } = menusApiSlice;
