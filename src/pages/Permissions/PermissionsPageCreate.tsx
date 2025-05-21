@@ -1,13 +1,14 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Loader from '../../common/Loader';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb.tsx';
-import SelectGroupOneMenu from '../../components/Forms/SelectGroupOneMenu.tsx';
+import SelectGroupOneMenu from '../../components/Forms/Shared/SelectGroupOneMenu.tsx';
 import { useResourcesQuery } from '../../redux/resources/resourcesApiSlice.ts';
 import { useAddPermissionMutation, usePermissionsQuery } from '../../redux/permissions/permissionsApiSlice.ts';
 import { Permission, permissionRequest } from '../../redux/permissions/permissions.type.ts';
 import errorHandler from '../../utils/errorHandler.ts';
 import { useRolesQuery } from '../../redux/roles/rolesApiSlice.ts';
 import { RoleResponse } from '../../redux/roles/role.type.ts';
+import MultiSelect from '../../components/Forms/Shared/MultiSelect.tsx';
 
 const transformRolesToOptions = (roles: RoleResponse[] = []) =>
   roles.map(role => ({
@@ -23,12 +24,12 @@ const transformPermissionsToOptions = (permissions: Permission[] = []) =>
     label: permission.label,
   }));
 
-const PermissionsPage = () => {
+const PermissionsPageCreate = () => {
   const { data: resources, isLoading: isResourcesLoading } = useResourcesQuery();
   const { data: permissions, isLoading: isPermissionsLoading } = usePermissionsQuery();
   const { data: roles, isLoading: isRolesLoading } = useRolesQuery();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<permissionRequest>();
+  const { register, handleSubmit, setValue, watch, formState: { errors } } = useForm<permissionRequest>();
 
   const permissionOptions = transformPermissionsToOptions(permissions);
   const roleOptions = transformRolesToOptions(roles);
@@ -37,7 +38,6 @@ const PermissionsPage = () => {
 
   const onSubmit: SubmitHandler<permissionRequest> = async (data) => {
     try {
-      console.log(data);
       await addPermission(data).unwrap();
       // navigate('/'); //проверить права доступа и в завимости от этого сделать navigate
     } catch (err) {
@@ -49,13 +49,13 @@ const PermissionsPage = () => {
     <Loader />
   ) : (
     <>
-      <Breadcrumb pageName="Create new menu item" />
+      <Breadcrumb pageName="Add permissions" />
 
       <div className="grid grid-cols-1 gap-9">
         <div className="flex flex-col gap-9">
           <div className="rounded-sm border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
             <div className="border-b border-stroke py-4 px-6.5 dark:border-strokedark">
-              <h3 className="font-medium text-black dark:text-white">Menu Form</h3>
+              <h3 className="font-medium text-black dark:text-white">Permission Form</h3>
             </div>
             <form onSubmit={handleSubmit(onSubmit)}>
               <div className="p-6.5">
@@ -85,24 +85,27 @@ const PermissionsPage = () => {
                 </div>
 
                 <div className="mb-4.5">
-                  <SelectGroupOneMenu
+                  <MultiSelect
                     name="permissionId"
+                    id="permissionId"
                     label="Оберіть дію для даної ролі"
-                    required={true}
                     options={permissionOptions || []}
-                    isLoading={isPermissionsLoading}
                     register={register}
+                    setValue={setValue}
+                    watch={watch}
                     errors={errors}
+                    required={true}
+                    isLoading={isPermissionsLoading}
                   />
                 </div>
 
-                <button
-                  type="submit"
-                  className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
-                >
-                  Відправити
-                </button>
-              </div>
+                  <button
+                    type="submit"
+                    className="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                  >
+                    Відправити
+                  </button>
+                </div>
             </form>
           </div>
         </div>
@@ -110,5 +113,4 @@ const PermissionsPage = () => {
     </>
   );
 }
-
-export default PermissionsPage;
+export default PermissionsPageCreate;

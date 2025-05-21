@@ -6,8 +6,12 @@ import FormLayout from '../pages/Form/FormLayout.tsx';
 import FormElements from '../pages/Form/FormElements.tsx';
 import Profile from '../pages/Profile.tsx';
 import Users from '../pages/Users/Users.tsx';
-import MenusPage from '../pages/Menus/MenusPage.tsx';
-import PermissionsPage from '../pages/Permissions/PermissionsPage.tsx';
+import MenusPageCreate from '../pages/Menus/MenusPageCreate.tsx';
+import PermissionsPageCreate from '../pages/Permissions/PermissionsPageCreate.tsx';
+import PermissionsPageRead from '../pages/Permissions/PermissionsPageRead.tsx';
+import PermissionsPageEdit from '../pages/Permissions/PermissionsPageEdit.tsx';
+import MenusPageRead from '../pages/Menus/MenusPageRead.tsx';
+import RolesPageCreate from '../pages/Roles/RolesPageCreate.tsx';
 
 
 const PrivateRoutes: FC = () => {
@@ -19,8 +23,12 @@ const PrivateRoutes: FC = () => {
       <Route path="/form-elements" element={<FormElements />} />
       <Route path="/profile" element={<Profile />} />
       <Route path="/users" element={<Users />} />
-      <Route path="/admin/menu/create" element={<MenusPage />} />
-      <Route path="/admin/permission/create" element={<PermissionsPage />} />
+      <Route path="/admin/menu/create" element={<MenusPageCreate />} />
+      <Route path="/admin/menu" element={<MenusPageRead />} />
+      <Route path="/admin/permission/create" element={<PermissionsPageCreate />} />
+      <Route path="/admin/permission" element={<PermissionsPageRead />} />
+      <Route path="/admin/permissions/edit/:roleId/:resourceId" element={<PermissionsPageEdit />} />
+      <Route path="/admin/role/create" element={<RolesPageCreate />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

@@ -41,7 +41,7 @@ const SelectGroupOneMenu: React.FC<Props> = ({
           <div className="text-center py-3">Loading options...</div>
         ) : (
           <select
-            {...register(name, { required: required && `${label} є обов'язковим` })}
+            {...register(name, { required: required && `Поле є обов'язковим` })}
             className="relative z-20 w-full appearance-none rounded border border-stroke bg-transparent py-3 px-5 outline-none transition focus:border-primary active:border-primary dark:border-form-strokedark dark:bg-form-input dark:focus:border-primary"
           >
             <option value="" className="text-body dark:text-bodydark">
@@ -78,9 +78,12 @@ const SelectGroupOneMenu: React.FC<Props> = ({
             </g>
           </svg>
         </span>
-
-        {error && <span className="text-red-500">{error.message}</span>}
       </div>
+      {error && (
+        <p className="mt-1 text-sm text-danger" role="alert">
+          {error.message}
+        </p>
+      )}
     </div>
   );
 };

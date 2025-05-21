@@ -5,7 +5,7 @@ const errorHandler = (error?: string | null): void => {
     ? error.trim()
     : 'Щось пішло не так. Повторіть спробу пізніше';
 
-  toast.error(message, { position: "bottom-left" });
+  toast.error(message, { position: "bottom-right" });
 };
 
 export default errorHandler;

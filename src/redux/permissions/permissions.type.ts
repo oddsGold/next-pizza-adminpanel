@@ -11,7 +11,7 @@ export interface AvailablePermissionState {
 export interface Permission {
   _id: string;
   label: string;
-  action: string;
+  action: 'create' | 'read' | 'update' | 'delete' | 'upload';
 }
 
 export interface permissionRequest {
@@ -19,3 +19,25 @@ export interface permissionRequest {
   resourceId: string;
   permissionId: string;
 }
+
+export interface GroupedPermissions {
+  roleId: string;
+  roleName: string;
+  resourceId: string;
+  resourceName: string;
+  resourceLabel: string;
+  permissions: {
+    _id: string;
+    action: 'create' | 'read' | 'update' | 'delete' | 'upload';
+    label: string;
+  }[];
+}
+
+export interface PermissionResponsePayload extends Omit<permissionRequest, 'permissionId'> {
+  permissionId: Permission[];
+}
+
+export interface PermissionRequestPayload extends Omit<permissionRequest, 'permissionId'> {
+  permissionId: string[];
+}
+

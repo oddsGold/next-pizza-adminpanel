@@ -7,14 +7,14 @@ export const menusApiSlice = api.injectEndpoints({
       query: () => ({
         url: '/me/menu'
       }),
-      providesTags: ['menus'],
+      providesTags: ['me-menus'],
       transformResponse: (response: { data: MenuItem[] }) => response.data,
     }),
     allMenus: builder.query<MenuItem[], void>({
       query: () => ({
         url: '/menu'
       }),
-      providesTags: ['menus'],
+      providesTags: ['parent-item-menus'],
       transformResponse: (response: { data: MenuItem[] }) => response.data,
     }),
     addMenuItem: builder.mutation<MenuItem[], menuRequest>({
@@ -24,7 +24,7 @@ export const menusApiSlice = api.injectEndpoints({
         body: menuRequest,
       }),
       transformResponse: (response: { data: MenuItem[] }) => response.data,
-      invalidatesTags: ['menus'],
+      invalidatesTags: ['me-menus', 'parent-item-menus'],
     }),
   }),
 });

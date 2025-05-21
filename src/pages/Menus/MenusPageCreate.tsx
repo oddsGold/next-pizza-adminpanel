@@ -1,14 +1,15 @@
 import { SubmitHandler, useForm } from 'react-hook-form';
 import Breadcrumb from '../../components/Breadcrumbs/Breadcrumb';
-import SelectGroupOneMenu from '../../components/Forms/SelectGroupOneMenu.tsx';
+import SelectGroupOneMenu from '../../components/Forms/Shared/SelectGroupOneMenu.tsx';
 import { useResourcesQuery } from '../../redux/resources/resourcesApiSlice.ts';
 import { usePermissionsQuery } from '../../redux/permissions/permissionsApiSlice.ts';
-import InputField from '../../components/Forms/InputField.tsx';
+import InputField from '../../components/Forms/Shared/InputField.tsx';
 import { MenuItem, menuRequest } from '../../redux/menus/menus.type.ts';
 import { Permission } from '../../redux/permissions/permissions.type.ts';
 import errorHandler from '../../utils/errorHandler.ts';
 import { useAddMenuItemMutation, useAllMenusQuery } from '../../redux/menus/menusApiSlice.ts';
 import Loader from '../../common/Loader';
+import acceptHandler from '../../utils/acceptHandler.ts';
 
 const transformMenusToOptions = (menus: MenuItem[] = []) =>
   menus.map(menu => ({
@@ -24,12 +25,12 @@ const transformPermissionsToOptions = (permissions:Permission[] = []) =>
     label: permission.label,
   }));
 
-const MenusPage = () => {
+const MenusPageCreate = () => {
   const { data: resources, isLoading: isResourcesLoading } = useResourcesQuery();
   const { data: permissions, isLoading: isPermissionsLoading } = usePermissionsQuery();
   const { data: menus, isLoading: isMenusLoading } = useAllMenusQuery();
 
-  const { register, handleSubmit, formState: { errors } } = useForm<menuRequest>();
+  const { register, handleSubmit, reset, formState: { errors } } = useForm<menuRequest>();
 
   const menuOptions = transformMenusToOptions(menus);
   const permissionOptions = transformPermissionsToOptions(permissions);
@@ -40,7 +41,8 @@ const MenusPage = () => {
   const onSubmit: SubmitHandler<menuRequest> = async (data) => {
     try {
       await addMenuItem(data).unwrap();
-      // navigate('/'); //проверить права доступа и в завимости от этого сделать navigate
+      acceptHandler();
+      reset();
     } catch (err) {
       errorHandler();
     }
@@ -131,4 +133,4 @@ const MenusPage = () => {
   );
 };
 
-export default MenusPage;
+export default MenusPageCreate;

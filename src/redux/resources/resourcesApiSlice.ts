@@ -7,6 +7,7 @@ export const menusApiSlice = api.injectEndpoints({
       query: () => ({
         url: '/resources'
       }),
+      providesTags: ['resources'],
       transformResponse: (response: { data: Resource[] }) => response.data,
     }),
   }),
