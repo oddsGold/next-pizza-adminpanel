@@ -12,6 +12,7 @@ import PermissionsPageRead from '../pages/Permissions/PermissionsPageRead.tsx';
 import PermissionsPageEdit from '../pages/Permissions/PermissionsPageEdit.tsx';
 import MenusPageRead from '../pages/Menus/MenusPageRead.tsx';
 import RolesPageCreate from '../pages/Roles/RolesPageCreate.tsx';
+import RolesPageRead from '../pages/Roles/RolesPageRead.tsx';
 
 
 const PrivateRoutes: FC = () => {
@@ -29,6 +30,7 @@ const PrivateRoutes: FC = () => {
       <Route path="/admin/permission" element={<PermissionsPageRead />} />
       <Route path="/admin/permissions/edit/:roleId/:resourceId" element={<PermissionsPageEdit />} />
       <Route path="/admin/role/create" element={<RolesPageCreate />} />
+      <Route path="/admin/roles" element={<RolesPageRead />} />
       <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   );

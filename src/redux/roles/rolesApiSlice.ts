@@ -5,7 +5,7 @@ export const rolesApiSlice = api.injectEndpoints({
   endpoints: (builder) => ({
     roles: builder.query<RoleResponse[], void>({
       query: () => ({
-        url: '/roles'
+        url: '/roles',
       }),
       providesTags: ['roles'],
       transformResponse: (response: { data: RoleResponse[] }) => response.data,
@@ -19,7 +19,18 @@ export const rolesApiSlice = api.injectEndpoints({
       invalidatesTags: ['roles'],
       transformResponse: (response: { data: RoleResponse[] }) => response.data,
     }),
+    deleteRole: builder.mutation<void, { id: string }>({
+      query: ({ id }) => ({
+        url: `/roles/${id}`,
+        method: 'DELETE',
+      }),
+      invalidatesTags: ['roles'],
+    }),
   }),
 });
 
-export const { useRolesQuery, useAddRoleMutation} = rolesApiSlice;
+export const {
+  useRolesQuery,
+  useAddRoleMutation,
+  useDeleteRoleMutation
+} = rolesApiSlice;
